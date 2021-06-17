@@ -8,21 +8,27 @@ using namespace std;
 // Integers in each row are sorted in ascending from left to right
 // The first integer of each row is greater than the last integer of the previous row.
 bool searchMatrix(vector<vector<int>>& matrix, int target) {
-    // Linear stepwise search: (movements until you hit target)
-    // Start at the bottom-left, move right until you hit a value greater than the target
-    // then move up until you reach a value lower than the target then right again
-    // If you hit the right edge without finding target, return false
+    // Binary search: We can treat the 2D vector as a 1D sorted vector of size m x n
+    // Then search it via binary search
     int m = matrix.size(), n = matrix[0].size();
-    int row = m - 1, col = 0;
-    while (row >= 0 && col < n) {
+    int start = 0, end = m*n - 1, mid = -1; 
+    int row = -1, col = -1;
+    while (start <= end) {
+        mid = (start + end) / 2;
+        // Converting 1D coordinate (mid) to row and col is:
+        // mid = (row * n) + col
+        col = mid % n;
+        row = mid / n;
         if (matrix[row][col] == target) {
             return true;
         }
+        // Look in the first half
         else if (matrix[row][col] > target) {
-            --row;
+            end = mid - 1;
         }
+        // Look in the last half
         else {
-            ++col;
+            start = mid + 1;
         }
     }
 
