@@ -50,13 +50,3 @@ style :
     --files $(FILES)
 	@echo "########################################"
 	@echo "EECS 280 style checks PASS"
-
-# Copy files to CAEN Linux
-sync :
-	rsync \
-  -rtv \
-  --delete \
-  --exclude '.git*' \
-  --filter=':- .gitignore' \
-  ../p5-ml/ \
-  sidpar@login.engin.umich.edu:EECS280/p5-ml-copy/
